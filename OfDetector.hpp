@@ -17,7 +17,7 @@ public:
    //getters & setters
    
    //key methods
-   void detect(const cv::Mat& fpImg, cv::Mat& ofImg);
+   cv::Mat detect(const cv::Mat& fpImg);
    
    //operators
 
@@ -25,7 +25,8 @@ private:
    //attributes
    
    //helper (private) methods
-
+	float getWeightedAngle(cv::Mat& mag, cv::Mat& ang);
+	float getLocalRidge(const cv::Mat& gx, const cv::Mat& gy, int startRow, int startCol, int blockSize);
 };
 //----------------------------------------------------------------------
 #endif
