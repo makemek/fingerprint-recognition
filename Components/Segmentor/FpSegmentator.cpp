@@ -25,15 +25,26 @@ bool FpSegmentator::hasFingerprintLine(const cv::Mat& fpImgBlock) {
 	stdDeviation = sqrt(totalPixelSquareValue / nPixel - pow(average, 2));
 	
 	cout << "avg " << average << ' ' << "std " << stdDeviation << endl;
-	return average < 40 && stdDeviation < 60;
+	bool background = average < 100 && stdDeviation < 30;
+	return !background;
 }
 
 cv::Mat FpSegmentator::getMask(const cv::Mat & fpImg)
 {
+	cv::Mat mask = cv::Mat::zeros(fpImg.rows, fpImg.cols, CV_8UC1);
 
-	throw exception("Not implemented");
-	if (hasFingerprintLine(fpImg))
-		return cv::Mat::zeros(cv::Size(fpImg.rows, fpImg.cols), CV_8U);
+	int blockSize = 16;
+	for (int row = 0; row < fpImg.rows; row += blockSize) {
+		for (int col = 0; col < fpImg.cols; col += blockSize) {
+			cv::Mat subSourceImg = fpImg(cv::Rect(col, row, blockSize, blockSize));
+			if (hasFingerprintLine(subSourceImg)) {
+				cv::Mat blockOfMask = cv::Mat(mask, cv::Rect(col, row, blockSize, blockSize));
+				cv::Mat whiteMat = cv::Mat(blockSize, blockSize, CV_8UC1, cv::Scalar(255));
+				blockOfMask += whiteMat; // assign white mask to mask's subblock
+			}
+		}
+	}
 	
+	return mask;
 }
 //----------------------------------------------------------------------
