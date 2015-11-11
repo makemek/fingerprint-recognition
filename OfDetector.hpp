@@ -26,7 +26,6 @@ private:
    
    //helper (private) methods
 	float getWeightedAngle(cv::Mat& mag, cv::Mat& ang);
-	float getLocalRidge(const cv::Mat& gx, const cv::Mat& gy, int startRow, int startCol, int blockSize);
 };
 //----------------------------------------------------------------------
 #endif
