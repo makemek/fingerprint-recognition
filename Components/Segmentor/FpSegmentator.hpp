@@ -8,10 +8,7 @@
 using namespace std;
 
 //----------------------------------------------------------------------
-const int FP_AREA             = 0;
-const int NON_FP_AREA         = 255;
 
-const int BLOCK_SIZE          = 16;
 //----------------------------------------------------------------------
 //Fingerprint (FP) Segmentator
 //----------------------------------------------------------------------
@@ -28,6 +25,10 @@ public:
 
 private:
    //attributes
+	const static int FP_AREA = 0;
+	const static int NON_FP_AREA = 255;
+
+	const static int BLOCK_SIZE = 16;
    
    //helper (private) methods
    

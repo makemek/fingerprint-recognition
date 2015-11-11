@@ -6,3 +6,6 @@ To run this program, you have to
     1. put 2 command line argument containing path to an image
 		1.1. path to input fingerprint image
 		1.2. path to fingerprint template image
+------------------------------------------
+
+If C4819 warning occurred, open the file and save with encoding UTF8-BOM
