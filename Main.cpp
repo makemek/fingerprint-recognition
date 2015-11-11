@@ -18,7 +18,7 @@ To run this program, you have to
 		1.2. path to fingerprint template image
 */
 int main(int argc, char** argv) {
-	assert(argc == 2);
+	assert(argc == 3);
 
    //read fingerprint image 1
    cv::Mat fpImg1 = cv::imread(argv[1], CV_LOAD_IMAGE_GRAYSCALE);
