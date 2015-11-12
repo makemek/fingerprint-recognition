@@ -7,10 +7,10 @@ double FpMatcher::match(const cv::Mat& fpImg1, const cv::Mat& fpImg2) {
    
    // segmentation
    FpSegmentator segmentator = FpSegmentator();
-   
+   cv::Mat segmentedImg = segmentator.segment(fpImg1);
 
    OfDetector ofDetector = OfDetector();
-   cv::imshow("1", ofDetector.detect(fpImg1));
+   cv::imshow("1", ofDetector.detect(segmentedImg));
    //cv::imshow("2", ofDetector.detect(fpImg2));
 
    return 100.0; 
