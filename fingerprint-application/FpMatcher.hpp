@@ -17,10 +17,11 @@ using namespace std;
 class FpMatcher {
 public:
    //constructors & destructor
+	FpMatcher();
    
    //getters & setters
    
-   //key methods
+	//key methods
    double match(const cv::Mat& fpImg1, const cv::Mat& fpImg2);
   
    //operators
@@ -33,7 +34,7 @@ private:
    MnMatcher      mnMatcher;
  
    //helper (private) methods
-   
+   cv::Mat& extractFingerprint(const cv::Mat& fingerprintImg);
 };
 //----------------------------------------------------------------------
 #endif
