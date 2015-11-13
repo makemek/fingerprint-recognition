@@ -1,10 +1,13 @@
 #ifndef FP_ENHANCER
 #define FP_ENHANCER
 
-#include <iostream>
 #include "opencv2/core/core.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/highgui/highgui.hpp"
+
+#include "GaborFilterbank.hpp"
+#include "OfDetector.hpp"
+
 using namespace std;
 
 //----------------------------------------------------------------------
@@ -17,15 +20,13 @@ public:
    //getters & setters
    
    //key methods
-   void enhance(const cv::Mat& fpImg, const cv::Mat& maskImg, const cv::Mat& enhancedImg);
+   cv::Mat enhance(const cv::Mat& segmentedFingerprintImg);
    
    //operators
 
 private:
-   //attributes
-   
-   //helper (private) methods
-
+	GaborFilterbank gaborFilterBank;
+	OfDetector OF_Field;
 };
 //----------------------------------------------------------------------
 #endif

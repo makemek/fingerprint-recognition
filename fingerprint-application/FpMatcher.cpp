@@ -20,6 +20,9 @@ double FpMatcher::match(const cv::Mat& fpImg1, const cv::Mat& fpImg2) {
 }
 cv::Mat& FpMatcher::extractFingerprint(const cv::Mat & fingerprintImg)
 {
-	throw exception("Not implemented");
+	cv::Mat segmented = fpSegmentator.segment(fingerprintImg); // Crop fingerprint area
+	cv::Mat enhanced = fpEnhancer.enhance(segmented); // Estimate ridge orientation
+	throw std::logic_error("Not implemented"); 
+	// Obtain skeleton image
 }
 //----------------------------------------------------------------------

@@ -10,25 +10,20 @@
 #include "GaborFilter.hpp"
 using namespace std;
 
-//----------------------------------------------------------------------
-//Gabor filterbank
-//----------------------------------------------------------------------
+
+/**Gabor filterbank
+A collection of Gabor filter
+*/
 class GaborFilterbank {
 public:
-   //constructors & destructor
-   
-   //getters & setters
-   
-   //key methods
-   void filter(const cv::Mat& fpImg, const cv::Mat& ofImg, cv::Mat& filteredImg);
-   
-   //operators
+
+	/**
+	
+	*/
+	cv::Mat filter(const cv::Mat& fingerprintImg, const cv::Mat& orientalFieldImg);
 
 private:
-   //attributes
    vector<GaborFilter> gbs;
-   //helper (private) methods
-
 };
 //----------------------------------------------------------------------
 #endif
