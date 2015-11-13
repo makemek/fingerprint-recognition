@@ -21,9 +21,6 @@
     <ClInclude Include="FpEnhancer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GaborFilter.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GaborFilterbank.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -33,9 +30,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FpEnhancer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GaborFilter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GaborFilterbank.cpp">

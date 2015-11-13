@@ -7,7 +7,7 @@
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/highgui/highgui.hpp"
 #include "OfDetector.hpp"
-#include "GaborFilter.hpp"
+
 using namespace std;
 
 
@@ -23,7 +23,7 @@ public:
 	cv::Mat filter(const cv::Mat& fingerprintImg, const cv::Mat& orientalFieldImg);
 
 private:
-   vector<GaborFilter> gbs;
+   vector<cv::Mat> gbs;
 };
 //----------------------------------------------------------------------
 #endif

@@ -143,13 +143,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FpEnhancer.hpp" />
-    <ClInclude Include="GaborFilter.hpp" />
     <ClInclude Include="GaborFilterbank.hpp" />
     <ClInclude Include="OfDetector.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FpEnhancer.cpp" />
-    <ClCompile Include="GaborFilter.cpp" />
     <ClCompile Include="GaborFilterbank.cpp" />
     <ClCompile Include="OfDetector.cpp" />
   </ItemGroup>
