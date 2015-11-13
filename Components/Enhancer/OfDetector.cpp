@@ -69,16 +69,15 @@ cv::Mat OfDetector::detect(cv::Size kSize, const cv::Mat& img) {
    cv::Mat angRes = cv::Mat::zeros(img.rows/kSize.height, img.cols/kSize.width, CV_32FC1);
 
    
-   for (int i = 0; i< img.rows - kSize.height; i += kSize.height)
+   for (int i = 0; i <= img.rows - kSize.height; i += kSize.height)
    {
-	   for (int j = 0; j< img.cols - kSize.width; j += kSize.width)
+	   for (int j = 0; j <= img.cols - kSize.width; j += kSize.width)
 	   {
 		   cv::Rect roi = cv::Rect(i, j, kSize.width, kSize.height);
-		   cv::Mat subGx = cv::Mat(gx, roi);
-		   cv::Mat subGy = cv::Mat(gy, roi);
-		   double x = estimateAngle(subGx, subGy);
+		   cv::Mat subMag = cv::Mat(mag, roi);
+		   cv::Mat subAng = cv::Mat(ang, roi);
+		   double theta = getWeightedAngle(subMag, subAng);
 		   
-		   double theta = atan(x) / 2;
 		   angRes.at<float>(j / kSize.width, i / kSize.height) = theta;
 	   }
    }
