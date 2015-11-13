@@ -23,7 +23,8 @@ public:
 	cv::Mat filter(const cv::Mat& fingerprintImg, const cv::Mat& orientalFieldImg);
 
 private:
-   vector<cv::Mat> gbs;
+   
+   double quantize(int directions, double angle);
 };
 //----------------------------------------------------------------------
 #endif
