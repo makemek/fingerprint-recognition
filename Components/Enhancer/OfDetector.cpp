@@ -29,7 +29,7 @@ float OfDetector::getWeightedAngle(cv::Mat& mag, cv::Mat& ang)
 fpImg image input
 ofImg output image with oriental field estimation
 */
-cv::Mat OfDetector::detect(const cv::Mat& img) { 
+cv::Mat OfDetector::detect(cv::Size kSize, const cv::Mat& img) { 
 
    cout << "Stub: orietation field (OF) detection" << endl; 
 
@@ -47,18 +47,20 @@ cv::Mat OfDetector::detect(const cv::Mat& img) {
 
    cv::Mat angRes = cv::Mat::zeros(img.rows, img.cols, CV_8UC1);
 
-   int blockSize = img.cols / 25 - 1;
-   float r = blockSize;
+   kSize.width -= 1;
+   kSize.height -= 1;
+   
+   float rx = kSize.width, ry = kSize.height;
 
-   for (int i = 0; i< img.rows - blockSize; i += blockSize)
+   for (int i = 0; i< img.rows - kSize.height; i += kSize.height)
    {
-	   for (int j = 0; j< img.cols - blockSize; j += blockSize)
+	   for (int j = 0; j< img.cols - kSize.width; j += kSize.width)
 	   {
-
-		   float a = getWeightedAngle(mag(cv::Rect(j, i, blockSize, blockSize)), ang(cv::Rect(j, i, blockSize, blockSize)));
+		   cv::Rect roi = cv::Rect(j, i, kSize.width, kSize.height);
+		   float a = getWeightedAngle(mag(roi), ang(roi));
 		   //cout << a << endl; 
-		   float dx = r*cos(a);
-		   float dy = r*sin(a);
+		   float dx = rx*cos(a);
+		   float dy = ry*sin(a);
 		   int x = j;
 		   int y = i;
 

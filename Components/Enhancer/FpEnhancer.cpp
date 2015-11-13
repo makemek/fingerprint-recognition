@@ -2,6 +2,6 @@
 
 cv::Mat FpEnhancer::enhance(const cv::Mat & fingerprintImg)
 {
-	cv::Mat angularField = OF_Field.detect(fingerprintImg);
+	cv::Mat angularField = OF_Field.detect(cv::Size(16,16), fingerprintImg);
 	throw std::logic_error("Not implemented");
 }
