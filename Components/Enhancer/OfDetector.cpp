@@ -24,6 +24,28 @@ float OfDetector::getWeightedAngle(cv::Mat& mag, cv::Mat& ang)
 	return res;
 }
 
+float OfDetector::estimateAngle(const cv::Mat& gx, const cv::Mat& gy) {
+	double a = 0, b = 0;
+	assert(gx.size == gy.size);
+
+	auto it_gx = gx.begin<float>(), it_gy = gy.begin<float>();
+	while(it_gx != gx.end<float>()) {
+		double gxVal = *it_gx;
+		double gyVal = *it_gy;
+
+		a += 2 * gxVal*gyVal;
+		b += pow(gxVal, 2)*pow(gyVal, 2);
+
+		++it_gx;
+		++it_gy;
+	}
+
+	if (b == 0)
+		return 0;
+
+	return a / b;
+}
+
 //----------------------------------------------------------------------
 /*
 fpImg image input
@@ -44,30 +66,23 @@ cv::Mat OfDetector::detect(cv::Size kSize, const cv::Mat& img) {
 
    cv::normalize(mag, mag, 0, 1, cv::NORM_MINMAX);
 
+   cv::Mat angRes = cv::Mat::zeros(img.rows/kSize.height, img.cols/kSize.width, CV_32FC1);
 
-   cv::Mat angRes = cv::Mat::zeros(img.rows, img.cols, CV_8UC1);
-
-   kSize.width -= 1;
-   kSize.height -= 1;
    
-   float rx = kSize.width, ry = kSize.height;
-
    for (int i = 0; i< img.rows - kSize.height; i += kSize.height)
    {
 	   for (int j = 0; j< img.cols - kSize.width; j += kSize.width)
 	   {
-		   cv::Rect roi = cv::Rect(j, i, kSize.width, kSize.height);
-		   float a = getWeightedAngle(mag(roi), ang(roi));
-		   //cout << a << endl; 
-		   float dx = rx*cos(a);
-		   float dy = ry*sin(a);
-		   int x = j;
-		   int y = i;
-
-		   cv::line(angRes, cv::Point(x, y), cv::Point(x + dx, y + dy), cv::Scalar::all(255), 1, CV_AA);
+		   cv::Rect roi = cv::Rect(i, j, kSize.width, kSize.height);
+		   cv::Mat subGx = cv::Mat(gx, roi);
+		   cv::Mat subGy = cv::Mat(gy, roi);
+		   double x = estimateAngle(subGx, subGy);
+		   
+		   double theta = atan(x) / 2;
+		   angRes.at<float>(j / kSize.width, i / kSize.height) = theta;
 	   }
    }
-   
+
    return angRes;
 
 
