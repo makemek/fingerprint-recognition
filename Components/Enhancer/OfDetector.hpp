@@ -26,6 +26,7 @@ private:
    
    //helper (private) methods
 	float getWeightedAngle(cv::Mat& mag, cv::Mat& ang);
+	float estimateAngle(const cv::Mat& gx, const cv::Mat& gy);
 };
 //----------------------------------------------------------------------
 #endif

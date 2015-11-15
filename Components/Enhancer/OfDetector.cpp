@@ -24,6 +24,30 @@ float OfDetector::getWeightedAngle(cv::Mat& mag, cv::Mat& ang)
 	return res;
 }
 
+// algorithm from equation 4,5,6 http://arresearchpublication.com/images/shortpdf/1433002339_293.pdf
+float OfDetector::estimateAngle(const cv::Mat& gx, const cv::Mat& gy) {
+	double a = 0, b = 0;
+	assert(gx.size == gy.size);
+
+	int i = gx.cols / 2, j = gx.rows / 2;
+	int w = gx.rows; // block size
+
+	for (int u = i - w / 2; u < i + w / 2; ++u) {
+		for (int v = j - w / 2; v < j + w / 2; ++v) {
+			//double gxVal = gx.at<float>(i, j);
+			//double gyVal = gy.at<float>(i, j);
+
+			a += 2 * gx.at<uchar>(i, j)*gy.at<uchar>(i, j);
+			b += pow(gx.at<uchar>(u, v), 2) - pow(gy.at<uchar>(u, v), 2);
+		}
+	}
+
+	if (b == 0)
+		return 0;
+	
+	return atan(b/a)/2; // least square estimate
+}
+
 //----------------------------------------------------------------------
 /*
 fpImg image input
@@ -33,41 +57,30 @@ cv::Mat OfDetector::detect(cv::Size kSize, const cv::Mat& img) {
 
    cout << "Stub: orietation field (OF) detection" << endl; 
 
-   cv::Mat thinned;
+   cv::Mat gx, gy;
+   cv::Sobel(img, gx, CV_32FC1, 1, 0, 7);
+   cv::Sobel(img, gy, CV_32FC1, 0, 1, 7);
 
-   thinned = img.clone();
-   cv::Mat gx, gy, ang, mag;
-   cv::Sobel(thinned, gx, CV_32FC1, 1, 0, 7);
-   cv::Sobel(thinned, gy, CV_32FC1, 0, 1, 7);
-   cv::phase(gx, gy, ang, false);
-   cv::magnitude(gx, gy, mag);
+   cv::Mat abs_gx, abs_gy;
+   cv::convertScaleAbs(gx, abs_gx);
+   cv::convertScaleAbs(gy, abs_gy);
 
-   cv::normalize(mag, mag, 0, 1, cv::NORM_MINMAX);
+   cv::Mat angRes = cv::Mat::zeros(img.rows/kSize.height, img.cols/kSize.width, CV_32FC1);
 
-
-   cv::Mat angRes = cv::Mat::zeros(img.rows, img.cols, CV_8UC1);
-
-   kSize.width -= 1;
-   kSize.height -= 1;
    
-   float rx = kSize.width, ry = kSize.height;
-
-   for (int i = 0; i< img.rows - kSize.height; i += kSize.height)
+   for (int i = 0; i <= img.rows - kSize.height; i += kSize.height)
    {
-	   for (int j = 0; j< img.cols - kSize.width; j += kSize.width)
+	   for (int j = 0; j <= img.cols - kSize.width; j += kSize.width)
 	   {
-		   cv::Rect roi = cv::Rect(j, i, kSize.width, kSize.height);
-		   float a = getWeightedAngle(mag(roi), ang(roi));
-		   //cout << a << endl; 
-		   float dx = rx*cos(a);
-		   float dy = ry*sin(a);
-		   int x = j;
-		   int y = i;
-
-		   cv::line(angRes, cv::Point(x, y), cv::Point(x + dx, y + dy), cv::Scalar::all(255), 1, CV_AA);
+		   cv::Rect roi = cv::Rect(i, j, kSize.width, kSize.height);
+		   cv::Mat subgx = cv::Mat(abs_gx, roi);
+		   cv::Mat subgy = cv::Mat(abs_gy, roi);
+		   double theta = estimateAngle(subgx, subgy);
+		   
+		   angRes.at<float>(j / kSize.width, i / kSize.height) = theta;
 	   }
    }
-   
+
    return angRes;
 
 
