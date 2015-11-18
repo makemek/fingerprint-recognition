@@ -25,15 +25,14 @@ bool FpSegmentator::hasFingerprintLine(const cv::Mat& fpImgBlock) {
 	stdDeviation = sqrt(totalPixelSquareValue / nPixel - pow(average, 2));
 	
 	bool background = average < 120 && stdDeviation < 20;
-	bool finger = average >= 110 && stdDeviation < 30;
-	return !(finger || background);
+	return !background;
 }
 
 cv::Mat FpSegmentator::getMask(const cv::Mat & fpImg)
 {
 	cv::Mat mask = cv::Mat::zeros(fpImg.rows, fpImg.cols, CV_8UC1);
 
-	int blockSize = 4;
+	int blockSize = 16;
 	for (int row = 0; row < fpImg.rows; row += blockSize) {
 		for (int col = 0; col < fpImg.cols; col += blockSize) {
 			cv::Mat subSourceImg = fpImg(cv::Rect(col, row, blockSize, blockSize));
