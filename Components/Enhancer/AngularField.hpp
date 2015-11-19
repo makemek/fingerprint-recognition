@@ -5,16 +5,13 @@
 class AngularField {
 
 public:
-	AngularField(const cv::Size& size, const cv::Mat& angleMat);
-	AngularField(const cv::Mat& mat);
+	AngularField(const cv::Mat& angleMat);
 
-	cv::Mat visualize();
+	cv::Mat visualize(const cv::Size& blockSize);
 	cv::Mat getAngularMatrix();
-	cv::Size getSize();
 
 private:
-	cv::Size size;
-	cv::Mat mat;
+	cv::Mat ang;
 };
 
 #endif
