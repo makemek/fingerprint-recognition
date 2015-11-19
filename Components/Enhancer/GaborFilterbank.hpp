@@ -20,7 +20,7 @@ public:
 	/**
 	
 	*/
-	cv::Mat filter(const cv::Mat& fingerprintImg, const cv::Mat& orientalFieldImg);
+	cv::Mat filter(const cv::Size& blockSize, const cv::Mat& fingerprintImg, const cv::Mat& orientalFieldImg);
 
 private:
    

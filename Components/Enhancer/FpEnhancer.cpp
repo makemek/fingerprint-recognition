@@ -2,7 +2,9 @@
 
 cv::Mat FpEnhancer::enhance(const cv::Mat & fingerprintImg)
 {
-	cv::Mat angularField = OF_Field.detect(cv::Size(16,16), fingerprintImg);
-	cv::Mat filtered = gaborFilterBank.filter(fingerprintImg, angularField);
+	cv::Size divBlock = cv::Size(16, 16);
+	AngularField angularField = OF_Field.detect(divBlock, fingerprintImg);
+	cv::Mat filtered = gaborFilterBank.filter(divBlock, fingerprintImg, angularField.getAngularMatrix());
+	
 	return filtered;
 }
