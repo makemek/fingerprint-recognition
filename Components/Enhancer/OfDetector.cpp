@@ -84,29 +84,5 @@ cv::Mat OfDetector::detect(cv::Size kSize, const cv::Mat& img) {
 
 
 }
-cv::Mat OfDetector::drawField(const cv::Mat & srcImg, const cv::Mat & angle)
-{
-	cv::Size blockSize = cv::Size(srcImg.rows / angle.rows, srcImg.cols / angle.cols);
 
-	cv::Mat visual = cv::Mat::zeros(srcImg.rows, srcImg.cols, CV_8UC1);
-
-	auto it = angle.begin<float>();
-
-	for (int i = 0; i <= srcImg.rows - blockSize.height; i += blockSize.height)
-	{
-		for (int j = 0; j <= srcImg.cols - blockSize.width; j += blockSize.width)
-		{
-			float dx = blockSize.width*cos(*it);
-			float dy = blockSize.height*sin(*it);
-			int x = j;
-			int y = i;
-
-			cv::line(visual, cv::Point(x, y), cv::Point(x + dx, y + dy), cv::Scalar::all(255), 1, CV_AA);
-
-			++it;
-		}
-	}
-
-	return visual;
-}
 //----------------------------------------------------------------------

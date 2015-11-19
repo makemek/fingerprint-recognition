@@ -19,8 +19,6 @@ public:
    //key methods
    cv::Mat detect(cv::Size kSize, const cv::Mat& fpImg);
 
-   cv::Mat drawField(const cv::Mat & srcImg, const cv::Mat & angle);
-   
    //operators
 
 private:
