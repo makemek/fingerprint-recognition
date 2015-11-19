@@ -1,7 +1,7 @@
 #include "GaborFilterbank.hpp"
 
 //----------------------------------------------------------------------
-cv::Mat GaborFilterbank::filter(const cv::Mat& fpImg, const cv::Mat& ofImg) { 
+cv::Mat GaborFilterbank::filter(const cv::Size& blockSize, const cv::Mat& fpImg, const cv::Mat& ofImg) {
 
    cout << "Stub: apply Gabor filterbank to image" << endl;
    
@@ -9,8 +9,6 @@ cv::Mat GaborFilterbank::filter(const cv::Mat& fpImg, const cv::Mat& ofImg) {
    fpImg.convertTo(fpImgFloat, CV_32F);
    cv::Mat outImg = cv::Mat::zeros(fpImgFloat.rows, fpImgFloat.cols, fpImgFloat.type());
    //outImg.convertTo(outImg, CV_8U);
-
-   cv::Size block = cv::Size(ofImg.rows, ofImg.cols);
 
    int row = 0, col = 0;
    auto it = ofImg.begin<float>();
@@ -27,18 +25,18 @@ cv::Mat GaborFilterbank::filter(const cv::Mat& fpImg, const cv::Mat& ofImg) {
 		   
 		   cv::Mat gaborFilter = this->getGaborKernel(KSIZE, sig, th + 90, lm, ps);
 
-		   cv::Rect roi = cv::Rect(col, row, block.width, block.height);
+		   cv::Rect roi = cv::Rect(col, row, blockSize.width, blockSize.height);
 		   cv::Mat subFingerprintImg = cv::Mat(fpImgFloat,roi);
 		   cv::Mat subOutImg = cv::Mat(outImg, roi);
 		   cv::Mat gaborBlock;
 		   cv::filter2D(subFingerprintImg, gaborBlock, CV_32F, gaborFilter);
 		   gaborBlock.copyTo(subOutImg);
 
-		   col += block.width;
+		   col += blockSize.width;
 		   ++it;
 	   }
 	   col = 0;
-	   row += block.height;
+	   row += blockSize.height;
    }
  
    outImg.convertTo(outImg, CV_8U);

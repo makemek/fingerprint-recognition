@@ -13,10 +13,18 @@ namespace EnhancerTest
 		TEST_METHOD(TestOrientalFieldDetector)
 		{
 			cv::Mat src = cv::imread("C:\\Users\\Make\\Desktop\\FP_DB\\1_1.BMP");
+			Assert::IsTrue(src.data);
+
 			OfDetector detector = OfDetector();
-			cv::Mat field = detector.detect(cv::Size(8,8), src);
-			cv::Mat out = detector.drawField(src, field);
-			cv::imshow("out", out);
+			AngularField field = detector.detect(cv::Size(8,8), src);
+			
+			cv::Size size = cv::Size(256, 256);
+			cv::Mat visual = field.visualize(size);
+
+			Assert::AreEqual(size.height, visual.rows);
+			Assert::AreEqual(size.width, visual.cols);
+
+			cv::imshow("out", field.visualize(256,256));
 			cv::waitKey();
 		}
 
