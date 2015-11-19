@@ -25,6 +25,7 @@ public:
 private:
    
    double quantize(int directions, double angle);
+   cv::Mat getGaborKernel(int ks, double sig, double th, double lm, double ps);
 };
 //----------------------------------------------------------------------
 #endif

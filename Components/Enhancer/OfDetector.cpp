@@ -57,29 +57,39 @@ cv::Mat OfDetector::detect(cv::Size kSize, const cv::Mat& img) {
 
    cout << "Stub: orietation field (OF) detection" << endl; 
 
-   cv::Mat gx, gy;
+   cv::Mat gx, gy, ang, mag;
    cv::Sobel(img, gx, CV_32FC1, 1, 0, 7);
    cv::Sobel(img, gy, CV_32FC1, 0, 1, 7);
+   cv::phase(gx, gy, ang, false);
+   cv::magnitude(gx, gy, mag);
 
-   cv::Mat abs_gx, abs_gy;
-   cv::convertScaleAbs(gx, abs_gx);
-   cv::convertScaleAbs(gy, abs_gy);
+   cv::normalize(mag, mag, 0, 1, cv::NORM_MINMAX);
 
    cv::Mat angRes = cv::Mat::zeros(img.rows/kSize.height, img.cols/kSize.width, CV_32FC1);
-
-   
+   cv::Mat visual = cv::Mat::zeros(img.rows, img.cols, CV_8UC1);
+   int angle = 0;
    for (int i = 0; i <= img.rows - kSize.height; i += kSize.height)
    {
 	   for (int j = 0; j <= img.cols - kSize.width; j += kSize.width)
 	   {
 		   cv::Rect roi = cv::Rect(i, j, kSize.width, kSize.height);
-		   cv::Mat subgx = cv::Mat(abs_gx, roi);
-		   cv::Mat subgy = cv::Mat(abs_gy, roi);
-		   double theta = estimateAngle(subgx, subgy);
+		   cv::Mat subMag = cv::Mat(mag, roi);
+		   cv::Mat subAng = cv::Mat(ang, roi);
+		   float theta = getWeightedAngle(mag(cv::Rect(j, i, kSize.width, kSize.height)), ang(cv::Rect(j, i, kSize.width, kSize.height)));
 		   
-		   angRes.at<float>(j / kSize.width, i / kSize.height) = theta;
+		   float dx = kSize.width*cos(3.3481991);
+		   float dy = kSize.height*sin(3.3481991);
+		   int x = j;
+		   int y = i;
+
+		   cv::line(visual, cv::Point(x, y), cv::Point(x + dx, y + dy), cv::Scalar::all(255), 1, CV_AA);
+		   angRes.at<float>(i / kSize.height, j / kSize.width) = theta;
+
+		   angle += 10;
 	   }
    }
+
+   cv::imshow("field", visual);
 
    return angRes;
 

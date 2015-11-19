@@ -24,10 +24,8 @@ bool FpSegmentator::hasFingerprintLine(const cv::Mat& fpImgBlock) {
 	average = (double)totalPixelValue / nPixel;
 	stdDeviation = sqrt(totalPixelSquareValue / nPixel - pow(average, 2));
 	
-	cout << "avg " << average << ' ' << "std " << stdDeviation << endl;
-	bool background = average < 120 && stdDeviation < 30;
-	bool finger = average >= 110 && stdDeviation < 35;
-	return !(finger || background);
+	bool background = average < 120 && stdDeviation < 20;
+	return !background;
 }
 
 cv::Mat FpSegmentator::getMask(const cv::Mat & fpImg)
