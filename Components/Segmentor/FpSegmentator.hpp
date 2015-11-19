@@ -15,7 +15,7 @@ using namespace std;
 class FpSegmentator {
 public:
    //constructors & destructor
-   
+
    //getters & setters
    
    //key methods
@@ -33,13 +33,6 @@ public:
 	cv::Mat getMask(const cv::Mat& fpImg);
 
 private:
-   //attributes
-	const int FP_AREA = 0;
-	const int NON_FP_AREA = 255;
-
-	int block_size;
-   
-   //helper (private) methods
    
 };
 //----------------------------------------------------------------------

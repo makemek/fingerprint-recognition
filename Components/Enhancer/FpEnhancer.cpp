@@ -1,11 +1,8 @@
 #include "FpEnhancer.hpp"
 
-//----------------------------------------------------------------------
-void FpEnhancer::enhance(const cv::Mat& fpImg, const cv::Mat& maskImg, const cv::Mat& enhancedImg) { 
-
-   cout << "Stub: fingerprint enhancement" << endl;
-
-
-
+cv::Mat FpEnhancer::enhance(const cv::Mat & fingerprintImg)
+{
+	cv::Mat angularField = OF_Field.detect(cv::Size(16,16), fingerprintImg);
+	cv::Mat filtered = gaborFilterBank.filter(fingerprintImg, angularField);
+	return filtered;
 }
-//----------------------------------------------------------------------

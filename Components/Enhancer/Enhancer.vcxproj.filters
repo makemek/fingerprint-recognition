@@ -15,13 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="FpEnhancer.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GaborFilter.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GaborFilterbank.hpp">
@@ -35,14 +29,16 @@
     <ClCompile Include="FpEnhancer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GaborFilter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GaborFilterbank.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OfDetector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

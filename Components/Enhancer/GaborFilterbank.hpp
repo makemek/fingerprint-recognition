@@ -7,28 +7,25 @@
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/highgui/highgui.hpp"
 #include "OfDetector.hpp"
-#include "GaborFilter.hpp"
+
 using namespace std;
 
-//----------------------------------------------------------------------
-//Gabor filterbank
-//----------------------------------------------------------------------
+
+/**Gabor filterbank
+A collection of Gabor filter
+*/
 class GaborFilterbank {
 public:
-   //constructors & destructor
-   
-   //getters & setters
-   
-   //key methods
-   void filter(const cv::Mat& fpImg, const cv::Mat& ofImg, cv::Mat& filteredImg);
-   
-   //operators
+
+	/**
+	
+	*/
+	cv::Mat filter(const cv::Mat& fingerprintImg, const cv::Mat& orientalFieldImg);
 
 private:
-   //attributes
-   vector<GaborFilter> gbs;
-   //helper (private) methods
-
+   
+   double quantize(int directions, double angle);
+   cv::Mat getGaborKernel(int ks, double sig, double th, double lm, double ps);
 };
 //----------------------------------------------------------------------
 #endif

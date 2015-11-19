@@ -17,7 +17,9 @@ public:
    //getters & setters
    
    //key methods
-   cv::Mat detect(const cv::Mat& fpImg);
+   cv::Mat detect(cv::Size kSize, const cv::Mat& fpImg);
+
+   cv::Mat drawField(const cv::Mat & srcImg, const cv::Mat & angle);
    
    //operators
 
@@ -26,6 +28,7 @@ private:
    
    //helper (private) methods
 	float getWeightedAngle(cv::Mat& mag, cv::Mat& ang);
+	float estimateAngle(const cv::Mat& gx, const cv::Mat& gy);
 };
 //----------------------------------------------------------------------
 #endif

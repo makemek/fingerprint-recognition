@@ -24,7 +24,7 @@ int main(int argc, char** argv) {
    cv::Mat fpImg1 = cv::imread(argv[1], CV_LOAD_IMAGE_GRAYSCALE);
 
    //read fingerprint image 2
-   cv::Mat fpImg2 = cv::imread(argv[2], CV_LOAD_IMAGE_GRAYSCALE);
+   cv::Mat fpImg2 = cv::imread(argv[1], CV_LOAD_IMAGE_GRAYSCALE);
    
    assert(fpImg1.data && fpImg2.data);
 
@@ -32,9 +32,17 @@ int main(int argc, char** argv) {
    cv::imshow("fingerprint2", fpImg2);
 
    //match two fingerprint images
-   FpMatcher fpMatcher;
-   double similarity = fpMatcher.match(fpImg1, fpImg2);
-   cout << "Similarity = " << similarity << endl;
+   //FpMatcher fpMatcher;
+   //double similarity = fpMatcher.match(fpImg1, fpImg2);
+   //cout << "Similarity = " << similarity << endl;
+
+   FpSegmentator segmentor = FpSegmentator();
+   FpEnhancer enhancer = FpEnhancer();
+
+   cv::Mat segImg = segmentor.segment(fpImg1);
+   cv::Mat enhImg = enhancer.enhance(segImg);
+   
+   cv::imshow("out", enhImg);
 
    cv::waitKey();
 }
