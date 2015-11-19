@@ -7,7 +7,8 @@ class AngularField {
 public:
 	AngularField(const cv::Mat& angleMat);
 
-	cv::Mat visualize(const cv::Size& blockSize);
+	cv::Mat visualize(const cv::Size& dimension);
+	cv::Mat visualize(int width, int height);
 	cv::Mat getAngularMatrix();
 
 private:
