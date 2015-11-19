@@ -53,7 +53,7 @@ float OfDetector::estimateAngle(const cv::Mat& gx, const cv::Mat& gy) {
 fpImg image input
 ofImg output image with oriental field estimation
 */
-cv::Mat OfDetector::detect(cv::Size kSize, const cv::Mat& img) {
+AngularField OfDetector::detect(cv::Size kSize, const cv::Mat& img) {
 
 	cout << "Stub: orietation field (OF) detection" << endl;
 
@@ -80,7 +80,7 @@ cv::Mat OfDetector::detect(cv::Size kSize, const cv::Mat& img) {
 		}
 	}
 
-	return angRes;
+	return AngularField(angRes);
 
 
 }
