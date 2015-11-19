@@ -88,7 +88,7 @@ cv::Mat OfDetector::drawField(const cv::Mat & srcImg, const cv::Mat & angle)
 {
 	cv::Size blockSize = cv::Size(srcImg.rows / angle.rows, srcImg.cols / angle.cols);
 
-	cv::Mat visual = cv::Mat(srcImg.rows, srcImg.cols, CV_8UC1);
+	cv::Mat visual = cv::Mat::zeros(srcImg.rows, srcImg.cols, CV_8UC1);
 
 	auto it = angle.begin<float>();
 
