@@ -16,9 +16,6 @@ cv::Mat GaborFilterbank::filter(const cv::Mat& fpImg, const cv::Mat& ofImg) {
    auto it = ofImg.begin<float>();
    const int KSIZE = 21;
 
-   cv::Mat field = cv::Mat::zeros(fpImg.rows, fpImg.cols, CV_8UC1);
-
-   cout << ofImg << endl;
    while (row < fpImg.rows) {
 	   while (col < fpImg.cols) {
 		   
@@ -39,19 +36,11 @@ cv::Mat GaborFilterbank::filter(const cv::Mat& fpImg, const cv::Mat& ofImg) {
 
 		   col += block.width;
 		   ++it;
-
-		   float dx = block.width*cos(*it);
-		   float dy = block.height*sin(*it);
-		   int x = col;
-		   int y = row;
-
-		   cv::line(field, cv::Point(x, y), cv::Point(x + dx, y + dy), cv::Scalar::all(255), 1, CV_AA);
 	   }
 	   col = 0;
 	   row += block.height;
    }
  
-   cv::imshow("quantized", field);
    outImg.convertTo(outImg, CV_8U);
 
    return outImg;

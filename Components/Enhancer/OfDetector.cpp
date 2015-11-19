@@ -15,7 +15,7 @@ float OfDetector::getWeightedAngle(cv::Mat& mag, cv::Mat& ang)
 		}
 	}
 
-	
+
 
 	if (n == 0)
 		return 0;
@@ -44,8 +44,8 @@ float OfDetector::estimateAngle(const cv::Mat& gx, const cv::Mat& gy) {
 
 	if (b == 0)
 		return 0;
-	
-	return atan(b/a)/2; // least square estimate
+
+	return atan(b / a) / 2; // least square estimate
 }
 
 //----------------------------------------------------------------------
@@ -53,46 +53,60 @@ float OfDetector::estimateAngle(const cv::Mat& gx, const cv::Mat& gy) {
 fpImg image input
 ofImg output image with oriental field estimation
 */
-cv::Mat OfDetector::detect(cv::Size kSize, const cv::Mat& img) { 
+cv::Mat OfDetector::detect(cv::Size kSize, const cv::Mat& img) {
 
-   cout << "Stub: orietation field (OF) detection" << endl; 
+	cout << "Stub: orietation field (OF) detection" << endl;
 
-   cv::Mat gx, gy, ang, mag;
-   cv::Sobel(img, gx, CV_32FC1, 1, 0, 7);
-   cv::Sobel(img, gy, CV_32FC1, 0, 1, 7);
-   cv::phase(gx, gy, ang, false);
-   cv::magnitude(gx, gy, mag);
+	cv::Mat gx, gy, ang, mag;
+	cv::Sobel(img, gx, CV_32FC1, 1, 0, 7);
+	cv::Sobel(img, gy, CV_32FC1, 0, 1, 7);
+	cv::phase(gx, gy, ang, false);
+	cv::magnitude(gx, gy, mag);
 
-   cv::normalize(mag, mag, 0, 1, cv::NORM_MINMAX);
+	cv::normalize(mag, mag, 0, 1, cv::NORM_MINMAX);
 
-   cv::Mat angRes = cv::Mat::zeros(img.rows/kSize.height, img.cols/kSize.width, CV_32FC1);
-   cv::Mat visual = cv::Mat::zeros(img.rows, img.cols, CV_8UC1);
-   int angle = 0;
-   for (int i = 0; i <= img.rows - kSize.height; i += kSize.height)
-   {
-	   for (int j = 0; j <= img.cols - kSize.width; j += kSize.width)
-	   {
-		   cv::Rect roi = cv::Rect(i, j, kSize.width, kSize.height);
-		   cv::Mat subMag = cv::Mat(mag, roi);
-		   cv::Mat subAng = cv::Mat(ang, roi);
-		   float theta = getWeightedAngle(mag(cv::Rect(j, i, kSize.width, kSize.height)), ang(cv::Rect(j, i, kSize.width, kSize.height)));
-		   
-		   float dx = kSize.width*cos(3.3481991);
-		   float dy = kSize.height*sin(3.3481991);
-		   int x = j;
-		   int y = i;
+	cv::Mat angRes = cv::Mat::zeros(img.rows / kSize.height, img.cols / kSize.width, CV_32FC1);
 
-		   cv::line(visual, cv::Point(x, y), cv::Point(x + dx, y + dy), cv::Scalar::all(255), 1, CV_AA);
-		   angRes.at<float>(i / kSize.height, j / kSize.width) = theta;
+	for (int i = 0; i <= img.rows - kSize.height; i += kSize.height)
+	{
+		for (int j = 0; j <= img.cols - kSize.width; j += kSize.width)
+		{
+			cv::Rect roi = cv::Rect(j, i, kSize.width, kSize.height);
+			cv::Mat subMag = cv::Mat(mag, roi);
+			cv::Mat subAng = cv::Mat(ang, roi);
+			float theta = getWeightedAngle(mag(cv::Rect(j, i, kSize.width, kSize.height)), ang(cv::Rect(j, i, kSize.width, kSize.height)));
 
-		   angle += 10;
-	   }
-   }
+			angRes.at<float>(i / kSize.height, j / kSize.width) = theta;
+		}
+	}
 
-   cv::imshow("field", visual);
-
-   return angRes;
+	return angRes;
 
 
+}
+cv::Mat OfDetector::drawField(const cv::Mat & srcImg, const cv::Mat & angle)
+{
+	cv::Size blockSize = cv::Size(srcImg.rows / angle.rows, srcImg.cols / angle.cols);
+
+	cv::Mat visual = cv::Mat(srcImg.rows, srcImg.cols, CV_8UC1);
+
+	auto it = angle.begin<float>();
+
+	for (int i = 0; i <= srcImg.rows - blockSize.height; i += blockSize.height)
+	{
+		for (int j = 0; j <= srcImg.cols - blockSize.width; j += blockSize.width)
+		{
+			float dx = blockSize.width*cos(*it);
+			float dy = blockSize.height*sin(*it);
+			int x = j;
+			int y = i;
+
+			cv::line(visual, cv::Point(x, y), cv::Point(x + dx, y + dy), cv::Scalar::all(255), 1, CV_AA);
+
+			++it;
+		}
+	}
+
+	return visual;
 }
 //----------------------------------------------------------------------

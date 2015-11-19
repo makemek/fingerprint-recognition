@@ -12,10 +12,11 @@ namespace EnhancerTest
 		
 		TEST_METHOD(TestOrientalFieldDetector)
 		{
-			cv::Mat src = cv::imread("C:\\Users\\Apipol\\Desktop\\FP_DB\\1_2.BMP");
+			cv::Mat src = cv::imread("C:\\Users\\Make\\Desktop\\FP_DB\\1_1.BMP");
 			OfDetector detector = OfDetector();
-			cv::Mat field = detector.detect(cv::Size(16,16), src);
-			cv::imshow("out", field);
+			cv::Mat field = detector.detect(cv::Size(8,8), src);
+			cv::Mat out = detector.drawField(src, field);
+			cv::imshow("out", out);
 			cv::waitKey();
 		}
 
