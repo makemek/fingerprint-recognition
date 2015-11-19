@@ -5,6 +5,7 @@
 #include "opencv2/core/core.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/highgui/highgui.hpp"
+#include "AngularField.hpp"
 using namespace std;
 
 //----------------------------------------------------------------------
@@ -17,10 +18,8 @@ public:
    //getters & setters
    
    //key methods
-   cv::Mat detect(cv::Size kSize, const cv::Mat& fpImg);
+   AngularField detect(cv::Size kSize, const cv::Mat& fpImg);
 
-   cv::Mat drawField(const cv::Mat & srcImg, const cv::Mat & angle);
-   
    //operators
 
 private:

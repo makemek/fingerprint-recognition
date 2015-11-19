@@ -133,11 +133,13 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AngularField.hpp" />
     <ClInclude Include="FpEnhancer.hpp" />
     <ClInclude Include="GaborFilterbank.hpp" />
     <ClInclude Include="OfDetector.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AngularField.cpp" />
     <ClCompile Include="FpEnhancer.cpp" />
     <ClCompile Include="GaborFilterbank.cpp" />
     <ClCompile Include="OfDetector.cpp" />
