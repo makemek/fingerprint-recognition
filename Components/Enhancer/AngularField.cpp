@@ -28,7 +28,7 @@ cv::Mat AngularField::visualize(int width, int height)
 			int x = j;
 			int y = i;
 
-			cv::line(visual, cv::Point(x, y), cv::Point(x + dx, y + dy), cv::Scalar::all(255), 1, CV_AA);
+			cv::line(visual, cv::Point(x, y), cv::Point(x + (int)dx, y + (int)dy), cv::Scalar::all(255), 1, CV_AA);
 
 			++it;
 		}

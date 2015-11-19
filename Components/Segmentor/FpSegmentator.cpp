@@ -16,7 +16,7 @@ bool FpSegmentator::hasFingerprintLine(const cv::Mat& fpImgBlock) {
 	int totalPixelValue = 0, totalPixelSquareValue = 0;
 	for (auto it = fpImgBlock.begin<uchar>(); it != fpImgBlock.end<uchar>(); ++it) {
 		totalPixelValue += *it;
-		totalPixelSquareValue += pow(*it, 2);
+		totalPixelSquareValue += *it * *it;
 	}
 	
 	double average = 0, stdDeviation = 0;
