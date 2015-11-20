@@ -19,6 +19,7 @@ public:
    
    //key methods
    void extract(const cv::Mat& enhancedImg, MnSet& mnSet);
+   void crossingNumber(const cv::Mat& input, cv::Mat& output);
    
    //operators
 

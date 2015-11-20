@@ -13,7 +13,7 @@ const int M_TYPE_BIFURCATION  = 2;
 //----------------------------------------------------------------------
 struct Minutiae {
    //constructors & destructor
-   Minutiae( cv::Point2f posVal, int typeVal = M_TYPE_UNKNOWN ) : pos(posVal), type(typeVal) {}
+   
    
    //attributes
    cv::Point2f pos;
