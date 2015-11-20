@@ -4,6 +4,7 @@
 #include "opencv2/highgui/highgui.hpp"
 #include "FpSegmentator.hpp"
 #include "FpMatcher.hpp"
+#include "Skeletonizer.hpp"
 using namespace std;
 //----------------------------------------------------------------------
 
@@ -40,9 +41,14 @@ int main(int argc, char** argv) {
    FpEnhancer enhancer = FpEnhancer();
 
    cv::Mat segImg = segmentor.segment(fpImg1);
+   cv::imshow("segmented", segImg);
+
    cv::Mat enhImg = enhancer.enhance(segImg);
-   
-   cv::imshow("out", enhImg);
+   cv::imshow("Enhanced", enhImg);
+
+   cv::Mat skeletonImg;
+   Skeletonizer::skeletonize(enhImg, skeletonImg);
+   cv::imshow("Skeletonized", skeletonImg);
 
    cv::waitKey();
 }

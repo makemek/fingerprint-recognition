@@ -19,13 +19,14 @@ public:
    //key methods
    static void skeletonize(const cv::Mat& binaryImg, cv::Mat& skeletonImg);
    
+   
    //operators
 
 private:
    //attributes
    
    //helper (private) methods
-
+	static void thinningIteration(cv::Mat& im, int iter);
 };
 //----------------------------------------------------------------------
 #endif
