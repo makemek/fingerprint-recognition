@@ -19,6 +19,7 @@ public:
    
    //key methods
    void extract(const cv::Mat& enhancedImg, MnSet& mnSet);
+   void drawMinutiaes(const cv::Mat &img, const MnSet &coords, cv::Mat &output, const int &magnify = 1);
    
    //operators
 
@@ -26,6 +27,7 @@ private:
    //attributes
    
    //helper (private) methods
+	void crossingNumber(const cv::Mat& input, cv::Mat& output);
 
 };
 //----------------------------------------------------------------------

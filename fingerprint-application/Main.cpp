@@ -50,6 +50,14 @@ int main(int argc, char** argv) {
    Skeletonizer::skeletonize(enhImg, skeletonImg);
    cv::imshow("Skeletonized", skeletonImg);
 
+   MnSet set;
+   MnExtractor mnExtractor = MnExtractor();
+   mnExtractor.extract(skeletonImg, set);
+
+   cv::Mat minu;
+   mnExtractor.drawMinutiaes(skeletonImg, set, minu, 2);
+
+   cv::imshow("Minutiae", minu);
    cv::waitKey();
 }
 //----------------------------------------------------------------------
