@@ -1,7 +1,7 @@
 #include "MnExtractor.hpp"
 
 //----------------------------------------------------------------------
-void crossingNumber(const cv::Mat& input, cv::Mat& output)
+void MnExtractor::crossingNumber(const cv::Mat& input, cv::Mat& output)
 {
 	// 1. Create a replication of an input "image" with only 0s and 1s
 	int i, j;
@@ -22,15 +22,18 @@ void crossingNumber(const cv::Mat& input, cv::Mat& output)
 	{
 		for (j = 1; j < input.cols - 1; ++j)
 		{
-			output.at<uchar>(i, j) = (
-				abs(tempInput.at<uchar>(i - 1, j - 1) - tempInput.at<uchar>(i - 1, j)) +
-				abs(tempInput.at<uchar>(i - 1, j) - tempInput.at<uchar>(i - 1, j + 1)) +
-				abs(tempInput.at<uchar>(i - 1, j + 1) - tempInput.at<uchar>(i, j + 1)) +
-				abs(tempInput.at<uchar>(i, j + 1) - tempInput.at<uchar>(i + 1, j + 1)) +
-				abs(tempInput.at<uchar>(i + 1, j + 1) - tempInput.at<uchar>(i + 1, j)) +
-				abs(tempInput.at<uchar>(i + 1, j) - tempInput.at<uchar>(i + 1, j - 1)) +
-				abs(tempInput.at<uchar>(i + 1, j - 1) - tempInput.at<uchar>(i, j - 1)) +
-				abs(tempInput.at<uchar>(i, j - 1) - tempInput.at<uchar>(i - 1, j - 1))) / 2;
+			if (input.at<uchar>(i, j) > 0)
+			{
+				output.at<uchar>(i, j) = (
+					abs(tempInput.at<uchar>(i - 1, j - 1) - tempInput.at<uchar>(i - 1, j)) +
+					abs(tempInput.at<uchar>(i - 1, j) - tempInput.at<uchar>(i - 1, j + 1)) +
+					abs(tempInput.at<uchar>(i - 1, j + 1) - tempInput.at<uchar>(i, j + 1)) +
+					abs(tempInput.at<uchar>(i, j + 1) - tempInput.at<uchar>(i + 1, j + 1)) +
+					abs(tempInput.at<uchar>(i + 1, j + 1) - tempInput.at<uchar>(i + 1, j)) +
+					abs(tempInput.at<uchar>(i + 1, j) - tempInput.at<uchar>(i + 1, j - 1)) +
+					abs(tempInput.at<uchar>(i + 1, j - 1) - tempInput.at<uchar>(i, j - 1)) +
+					abs(tempInput.at<uchar>(i, j - 1) - tempInput.at<uchar>(i - 1, j - 1))) / 2;
+			}
 		}
 	}
 }
@@ -78,5 +81,17 @@ void MnExtractor::extract(const cv::Mat& enhancedImg, MnSet& mnSet) {
 		   }
 	   }
    }
+}
+//----------------------------------------------------------------------
+void MnExtractor::drawMinutiaes(const cv::Mat &img, const MnSet &coords, cv::Mat &output, const int &magnify)
+{
+	cv::resize(img, output, img.size() * magnify);
+	int i;
+
+	for (int i = 0; i < coords.size(); ++i)
+	{
+		if(coords[i].type != M_TYPE_UNKNOWN)
+			cv::circle(output, cv::Point(coords[i].pos.y, coords[i].pos.x) * magnify, magnify + 5, 128);
+	}
 }
 //----------------------------------------------------------------------
