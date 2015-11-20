@@ -4,9 +4,39 @@
 
 cv::Mat FpSegmentator::segment(const cv::Mat & fpImg)
 {
-	cv::Mat segmentedImg = fpImg.clone();
-	cv::bitwise_and(fpImg, getMask(fpImg), segmentedImg);
-	return segmentedImg;
+	cv::Mat biImg;
+	cv::Mat maskImg = fpImg.clone();
+
+	cv::threshold(fpImg, biImg, 128, 255, cv::THRESH_BINARY_INV | cv::THRESH_OTSU);
+	bool isFinger;
+
+	for (int i = 0; i < maskImg.rows; i++) {
+		isFinger = false;
+		for (int j = 0; j <= maskImg.cols / 2; j++) {
+			if (biImg.at<uchar>(i, j) == 0 && !isFinger) {
+				maskImg.at<uchar>(i, j) = 255;
+			}
+			else if (biImg.at<uchar>(i, j) != 0) {
+				isFinger = true;
+				maskImg.at<uchar>(i, j) = 255;
+			}
+		}
+	}
+
+	for (int x = 0; x < maskImg.rows; x++) {
+		isFinger = false;
+		for (int y = maskImg.cols - 1; y > maskImg.cols / 2; y--) {
+			if (biImg.at<uchar>(x, y) == 0 && !isFinger) {
+				maskImg.at<uchar>(x, y) = 255;
+			}
+			else if (biImg.at<uchar>(x, y) != 0) {
+				isFinger = true;
+				maskImg.at<uchar>(x, y) = 255;
+			}
+		}
+	}
+
+	return biImg;
 }
 
 bool FpSegmentator::hasFingerprintLine(const cv::Mat& fpImgBlock) {
